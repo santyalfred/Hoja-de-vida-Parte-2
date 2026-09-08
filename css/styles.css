@@ -1,9 +1,11 @@
-/* Hoja de Vida — Santiago Alfred Michovich
+/* =========================================================================
+   Hoja de Vida — Santiago Alfred Michovich
    CSS3 nativo — colores, tipografía, márgenes/padding, bordes, sombras,
    Flexbox (sección Habilidades Técnicas), CSS Grid (sección Proyectos
-   Destacados)*/
+   Destacados) y diseño responsive con @media query.
+   ========================================================================= */
 
-/* Variables de diseño */
+/* --------------------------- Variables de diseño -------------------------- */
 :root {
   --color-navy: #1b2a4a;
   --color-navy-dark: #0f1b2d;
@@ -24,7 +26,148 @@
   --sombra-media: 0 4px 14px rgba(15, 27, 45, 0.18);
 }
 
-/* Reset básico */
+/* =========================================================================
+   MODO OSCURO — CSS3 nativo, sin JavaScript.
+   Usa la media query prefers-color-scheme: si el sistema operativo o el
+   navegador del visitante está configurado en modo oscuro, estos colores
+   se aplican automáticamente. No requiere ningún botón ni script.
+   ========================================================================= */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --color-bg: #10151d;
+    --color-bg-card: #1a2230;
+    --color-text: #e8ecf1;
+    --color-text-soft: #a9b2c2;
+    --color-border: #2d3648;
+
+    --sombra-suave: 0 2px 6px rgba(0, 0, 0, 0.4);
+    --sombra-media: 0 4px 14px rgba(0, 0, 0, 0.55);
+  }
+
+  mark {
+    background-color: #7a6111;
+    color: #fbe8a6;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  select,
+  textarea {
+    background-color: #141b26;
+    color: var(--color-text);
+    border-color: var(--color-border);
+  }
+
+  thead th {
+    background-color: #05090f;
+  }
+
+  tbody th {
+    background-color: var(--color-bg-card);
+  }
+
+  tbody tr:nth-child(even) td {
+    background-color: #141b26;
+  }
+
+  #perfil ul li {
+    background-color: #05090f;
+  }
+}
+
+/* =========================================================================
+   BOTÓN DE MODO OSCURO — CSS3 puro, sin JavaScript.
+   Técnica: un <input type="checkbox"> oculto + un <label> que actúa como
+   botón. Al hacer clic en el label, se marca el checkbox, y con el
+   selector :has() (soportado en navegadores modernos) se le aplican los
+   mismos colores oscuros de arriba a todo el <body>.
+   ========================================================================= */
+
+/* Ocultar visualmente el checkbox mantenerlo accesible por teclado */
+.modo-oscuro-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* El label se ve y se comporta como un botón */
+.modo-oscuro-boton {
+  display: inline-block;
+  cursor: pointer;
+  background-color: var(--color-gold);
+  color: var(--color-navy-dark);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.5em 1.1em;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+  user-select: none;
+}
+
+.modo-oscuro-boton:hover {
+  background-color: #e0bb3a;
+}
+
+/* Foco visible por teclado (Tab + Enter/Espacio también activa el toggle) */
+.modo-oscuro-input:focus-visible + .modo-oscuro-boton {
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Cuando el checkbox está marcado, aplicar el tema oscuro a todo el body */
+body:has(.modo-oscuro-input:checked) {
+  --color-bg: #10151d;
+  --color-bg-card: #1a2230;
+  --color-text: #e8ecf1;
+  --color-text-soft: #a9b2c2;
+  --color-border: #2d3648;
+  --sombra-suave: 0 2px 6px rgba(0, 0, 0, 0.4);
+  --sombra-media: 0 4px 14px rgba(0, 0, 0, 0.55);
+}
+
+body:has(.modo-oscuro-input:checked) mark {
+  background-color: #7a6111;
+  color: #fbe8a6;
+}
+
+body:has(.modo-oscuro-input:checked) input[type="text"],
+body:has(.modo-oscuro-input:checked) input[type="email"],
+body:has(.modo-oscuro-input:checked) input[type="tel"],
+body:has(.modo-oscuro-input:checked) select,
+body:has(.modo-oscuro-input:checked) textarea {
+  background-color: #141b26;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+body:has(.modo-oscuro-input:checked) thead th {
+  background-color: #05090f;
+}
+
+body:has(.modo-oscuro-input:checked) tbody th {
+  background-color: var(--color-bg-card);
+}
+
+body:has(.modo-oscuro-input:checked) tbody tr:nth-child(even) td {
+  background-color: #141b26;
+}
+
+body:has(.modo-oscuro-input:checked) #perfil ul li {
+  background-color: #05090f;
+}
+
+body:has(.modo-oscuro-input:checked) .modo-oscuro-boton {
+  background-color: var(--color-pitch);
+  color: #ffffff;
+}
+
+/* ------------------------------ Reset básico ------------------------------ */
 * {
   box-sizing: border-box;
 }
@@ -70,7 +213,7 @@ select:focus-visible {
   outline-offset: 2px;
 }
 
-/* Tipografía */
+/* --------------------------------- Tipografía ------------------------------ */
 h1, h2, h3 {
   font-family: var(--font-titulos);
   color: var(--color-navy-dark);
@@ -120,7 +263,7 @@ blockquote {
   box-shadow: var(--sombra-suave);
 }
 
-/* Header */
+/* ---------------------------------- Header --------------------------------- */
 header {
   background: linear-gradient(150deg, var(--color-navy-dark) 0%, var(--color-navy) 70%);
   color: #ffffff;
@@ -169,7 +312,7 @@ nav a:focus {
   border-bottom-color: var(--color-gold);
 }
 
-/* Main */
+/* ----------------------------------- Main ---------------------------------- */
 main {
   max-width: 960px;
   margin: 0 auto;
@@ -186,7 +329,7 @@ hr {
   margin: 0;
 }
 
-/*  Presentación / address */
+/* --------------------------- Presentación / address ------------------------ */
 figure {
   margin: 0 0 1.5rem;
   text-align: center;
@@ -219,7 +362,7 @@ address .dato {
   margin-bottom: 0.4em;
 }
 
-/*  Listas */
+/* ------------------------------ Listas (fortalezas) ------------------------ */
 #perfil ul {
   list-style: none;
   display: flex;
@@ -237,7 +380,7 @@ address .dato {
   font-size: 0.85rem;
 }
 
-/*  Tarjetas (formación / experiencia) */
+/* --------------------------- Tarjetas (formación / experiencia) ------------ */
 article {
   background-color: var(--color-bg-card);
   border: 1px solid var(--color-border);
@@ -262,7 +405,7 @@ article figure img {
   box-shadow: var(--sombra-suave);
 }
 
-/* Habilidades técnicas — FLEXBOX */
+/* --------------------- Habilidades técnicas — FLEXBOX ---------------------- */
 .skills-flex {
   display: flex;
   flex-wrap: wrap;
@@ -298,7 +441,7 @@ meter {
   height: 0.8em;
 }
 
-/*  Tabla idiomas */
+/* --------------------------------- Tabla idiomas ---------------------------- */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -342,7 +485,7 @@ tbody tr:nth-child(even) td {
   background-color: var(--color-bg);
 }
 
-/* Proyectos Destacados — CSS GRID */
+/* --------------------- Proyectos Destacados — CSS GRID ---------------------- */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -355,7 +498,7 @@ tbody tr:nth-child(even) td {
   flex-direction: column;
 }
 
-/*  Multimedia */
+/* -------------------------------- Multimedia -------------------------------- */
 #multimedia figure {
   background-color: var(--color-bg-card);
   border: 1px solid var(--color-border);
@@ -375,7 +518,7 @@ audio, video {
   margin-bottom: 1.5rem;
 }
 
-/*  Formulario */
+/* ---------------------------------- Formulario ------------------------------ */
 form {
   background-color: var(--color-bg-card);
   border: 1px solid var(--color-border);
@@ -461,7 +604,7 @@ button[type="reset"]:hover {
   color: var(--color-text);
 }
 
-/* Footer */
+/* ----------------------------------- Footer --------------------------------- */
 footer {
   background-color: var(--color-navy-dark);
   color: #aeb8c9;
@@ -474,8 +617,11 @@ footer a {
   color: var(--color-gold);
 }
 
-/* DISEÑO RESPONSIVE: Por debajo de 700px: la navegación, el flexbox de habilidades y 
-   el grid deproyectos pasan a una sola columna para verse bien en celulares. */
+/* ============================================================================
+   DISEÑO RESPONSIVE — @media query
+   Por debajo de 700px: la navegación, el flexbox de habilidades y el grid de
+   proyectos pasan a una sola columna para verse bien en celulares.
+   ============================================================================ */
 @media (max-width: 700px) {
 
   header {
